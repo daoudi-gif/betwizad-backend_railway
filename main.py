@@ -49,13 +49,11 @@ def parse_matches(raw_rows):
     for row in raw_rows[header_idx+1:]:
         if len(row) < 6:
             continue
-        # Détection championnat (première cellule sans heure ni score)
         if row[0] and not re.search(r'\d+:\d+|\d+\s*:\s*\d+|\d+-\d+', row[0]) and ' - ' not in row[0]:
             championnat_courant = row[0]
             matchs_par_championnat.setdefault(championnat_courant, [])
             continue
         
-        # Match
         if ':' in row[0] or '-' in row[0]:
             match = {
                 'time': row[0],
