@@ -1,0 +1,20 @@
+# On utilise l'image officielle de Playwright comme base, ce qui est idéal
+FROM mcr.microsoft.com/playwright/python:v1.48.0-noble
+
+# Définir le répertoire de travail dans le conteneur
+WORKDIR /app
+
+# Copier le fichier des dépendances en premier (pour optimiser la mise en cache)
+COPY requirements.txt .
+
+# Installer les dépendances Python
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copier le reste du code de l'application
+COPY . .
+
+# Indiquer à Docker d'écouter sur le port 8000
+EXPOSE 8000
+
+# Commande pour lancer l'API
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
